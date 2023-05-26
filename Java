@@ -1,0 +1,174 @@
+import java.util.HashMap;
+
+import java.util.Map;
+
+import java.util.Scanner;
+
+class LoanApp {
+
+    private Map<String, Double> accounts;
+
+    public LoanApp() {
+
+        accounts = new HashMap<>();
+
+    }
+
+    public void createAccount(String username, double initialBalance) {
+
+        accounts.put(username, initialBalance);
+
+        System.out.println("Account created successfully!");
+
+    }
+
+    public double getLoanLimit(String username) {
+
+        return accounts.getOrDefault(username, 0.0) * 0.5; // Loan limit is set to 50% of the account balance
+
+    }
+
+    public void borrow(String username, double amount) {
+
+        double loanLimit = getLoanLimit(username);
+
+        double currentBalance = accounts.getOrDefault(username, 0.0);
+
+        if (amount > loanLimit) {
+
+            System.out.println("Loan amount exceeds the loan limit.");
+
+        } else {
+
+            accounts.put(username, currentBalance + amount);
+
+            System.out.println("Loan borrowed successfully!");
+
+        }
+
+    }
+
+    public void repayLoan(String username, double amount) {
+
+        double currentBalance = accounts.getOrDefault(username, 0.0);
+
+        if (amount > currentBalance) {
+
+            System.out.println("Invalid repayment amount. Cannot repay more than the borrowed amount.");
+
+        } else {
+
+            accounts.put(username, currentBalance - amount);
+
+            System.out.println("Loan repayment successful!");
+
+        }
+
+    }
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        LoanApp loanApp = new LoanApp();
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+
+            System.out.println("Welcome to Loan App!");
+
+            System.out.println("1. Create Account");
+
+            System.out.println("2. Check Loan Limit");
+
+            System.out.println("3. Borrow");
+
+            System.out.println("4. Repay Loan");
+
+            System.out.println("5. Exit");
+
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+
+            scanner.nextLine();
+
+            switch (choice) {
+
+                case 1:
+
+                    System.out.print("Enter username: ");
+
+                    String username = scanner.nextLine();
+
+                    System.out.print("Enter initial balance: ");
+
+                    double initialBalance = scanner.nextDouble();
+
+                    loanApp.createAccount(username, initialBalance);
+
+                    break;
+
+                case 2:
+
+                    System.out.print("Enter username: ");
+
+                    username = scanner.nextLine();
+
+                    double loanLimit = loanApp.getLoanLimit(username);
+
+                    System.out.println("Loan Limit: " + loanLimit);
+
+                    break;
+
+                case 3:
+
+                    System.out.print("Enter username: ");
+
+                    username = scanner.nextLine();
+
+                    System.out.print("Enter loan amount: ");
+
+                    double amount = scanner.nextDouble();
+
+                    loanApp.borrow(username, amount);
+
+                    break;
+
+                case 4:
+
+                    System.out.print("Enter username: ");
+
+                    username = scanner.nextLine();
+
+                    System.out.print("Enter repayment amount: ");
+
+                    amount = scanner.nextDouble();
+
+                    loanApp.repayLoan(username, amount);
+
+                    break;
+
+                case 5:
+
+                    System.out.println("Thank you for using Loan App!");
+
+                    System.exit(0);
+
+                    break;
+
+                default:
+
+                    System.out.println("Invalid choice. Please try again.");
+
+            }
+
+        }
+
+    }
+
+}
+
